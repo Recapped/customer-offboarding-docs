@@ -31,15 +31,20 @@ Task-level Comment
 
 ---
 
-# Workspace Metadata (`workspace_data`)
+# Workspace Metadata (`workspace_meta_data`)
 
 Each row represents a single workspace and contains workspace-level information, including:
 
 - Workspace ID
+
 - Workspace URL
-- Workspace name
+
+- Workspace title
+
 - Workspace status
+
 - Workspace state
+
 - Tab ordering
   - The ordered list of tab IDs used to preserve the original tab order within the workspace.
 
@@ -57,25 +62,37 @@ Each row represents a single workspace and contains workspace-level information,
   - Close date
 
 - Internal collaborators
+
 - External collaborators/clients
 
 Collaborators are provided as arrays of objects because a workspace may have multiple collaborators.
 
-**Collaborators example:**
+**Internal collaborators example:**
 
 ```json
 [
   {
-    "id": "456",
+    "id": 456,
     "type": "internal",
     "name": "Jane Smith",
     "email": "jane@company.com"
-  },
+  }
+]
+```
+
+**External collaborators example:**
+
+```json
+[
   {
-    "id": "789",
+    "id": 789,
     "type": "external",
     "name": "John Customer",
-    "email": "john@customer.com"
+    "email": "john@customer.com",
+    "phone": "+1 555 123 4567",
+    "roles": ["buyer"],
+    "crm_record": {},
+    "accepted": true
   }
 ]
 ```
@@ -89,10 +106,15 @@ Each row represents a tab (page) within a workspace.
 Each tab includes:
 
 - Workspace ID
+
 - Workspace URL
-- Workspace name
+
+- Workspace title
+
 - Tab ID
-- Tab name
+
+- Tab title
+
 - Tab ordering position
   - Used to recreate the original tab order within the workspace.
 
@@ -114,11 +136,17 @@ Each row represents a content block within a workspace tab.
 Each block includes:
 
 - Workspace ID
+
 - Workspace URL
-- Workspace name
+
+- Workspace title
+
 - Tab ID
-- Tab name
+
+- Tab title
+
 - Block ID
+
 - Block type
   - Examples include `text`, `files`, `links`, `images`, `tasks`, `crm`, etc.
 
@@ -160,22 +188,36 @@ Each row represents a single task within a task block.
 Each task includes:
 
 - Workspace ID
+
 - Workspace URL
-- Workspace name
+
+- Workspace title
+
 - Tab ID
-- Tab name
+
+- Tab title
+
 - Block ID
+
 - Block type
+
 - Task block (milestone) name
+
 - Task ID
+
 - Task ordering position
   - Used to recreate the original order of tasks within a task block.
 
 - Task title
+
 - Task description (when available)
+
 - Due date (when available)
+
 - Completion status
+
 - Assigned users/clients
+
 - Attachments
 
 Assignees are represented as an array of objects because a task may have multiple assignees.
@@ -185,12 +227,12 @@ Assignees are represented as an array of objects because a task may have multipl
 ```json
 [
   {
-    "id": "456",
+    "id": 456,
     "type": "internal",
     "name": "Jane Smith"
   },
   {
-    "id": "789",
+    "id": 789,
     "type": "external",
     "name": "John Customer"
   }
@@ -204,13 +246,13 @@ Attachments are represented as an array of objects because a task may have multi
 ```json
 [
   {
-    "id": "123",
-    "task_attachment_id": "456",
+    "id": 123,
+    "task_attachment_id": 456,
     "title": "Implementation Guide.pdf"
   },
   {
-    "id": "234",
-    "task_attachment_id": "456",
+    "id": 234,
+    "task_attachment_id": 457,
     "title": "Onboarding Resources.pdf"
   }
 ]
@@ -280,7 +322,7 @@ Related fields:
 - Block type
 - Block title
 - Parent tab ID
-- Parent tab name
+- Parent tab title
 
 ---
 
@@ -307,13 +349,16 @@ Related fields:
 
 - Workspace ID
 - Workspace URL
-- Workspace name
+- Workspace title
 - Tab ID
-- Tab name
+- Tab title
 - Block ID
 - Block type
+- Block title
 - Task ID
+- Task title
 - Thread ID
+- Thread ordering position
 - Comment anchor ID
 - Comment anchor type
 - Thread external status
@@ -331,6 +376,14 @@ Related fields:
 
 ## Comment Ordering
 
+Threads are ordered within a workspace by:
+
+```text
+tab order position
+then
+thread_id
+```
+
 Comments within a thread are ordered by:
 
 ```text
@@ -339,7 +392,9 @@ then
 comment_id
 ```
 
-The `comment_order_position` field can be used to recreate the original comment ordering.
+The `thread_order_position` field can be used to recreate the original thread ordering within a workspace.
+
+The `comment_order_position` field can be used to recreate the original comment ordering within a thread.
 
 ---
 
@@ -350,18 +405,20 @@ Comments may be authored by internal users or external prospects.
 Author fields include:
 
 - Author ID
+
 - Author type
   - `internal`
   - `external`
 
 - Author name
+
 - Author email
 
 Example:
 
 ```json
 {
-  "author_id": "456",
+  "author_id": 456,
   "author_type": "internal",
   "author_name": "Jane Smith",
   "author_email": "jane@company.com"
@@ -380,13 +437,13 @@ Example:
 [
   {
     "emoji": "thumbs_up",
-    "id": "456",
+    "id": 456,
     "type": "internal",
     "name": "Jane Smith"
   },
   {
     "emoji": "heart",
-    "id": "789",
+    "id": 789,
     "type": "external",
     "name": "John Customer"
   }
@@ -412,7 +469,7 @@ Use the following identifiers to relate records across reports:
 
 To recreate the original workspace structure:
 
-1. Start with the workspace from `workspace_data`.
+1. Start with the workspace from `workspace_meta_data`.
 2. Add tabs from `tabs_data`, ordered by `tab_order_position`.
 3. Add content blocks from `blocks_data`, ordered by `content_order_position`.
 4. For each content block where `block_type = tasks`, attach the corresponding records from `tasks_data` using `block_id`, ordered by `task_order_position`.
@@ -431,6 +488,5 @@ Use the following fields to recreate the original visual layout:
 | `tab_order_position`     | Orders tabs within a workspace.     |
 | `content_order_position` | Orders content blocks within a tab. |
 | `task_order_position`    | Orders tasks within a task block.   |
+| `thread_order_position`  | Orders threads within a workspace.  |
 | `comment_order_position` | Orders comments within a thread.    |
-
----
