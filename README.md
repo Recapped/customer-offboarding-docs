@@ -150,6 +150,8 @@ Each block includes:
 - Block type
   - Examples include `text`, `files`, `links`, `images`, `tasks`, `crm`, etc.
 
+- Whether the block is client-facing
+
 - Display ordering position
   - Used to recreate the visual order of content blocks within a tab.
 
@@ -204,6 +206,8 @@ Each task includes:
 - Task block (milestone) name
 
 - Task ID
+
+- Whether the task is client-facing
 
 - Task ordering position
   - Used to recreate the original order of tasks within a task block.
@@ -366,7 +370,7 @@ Related fields:
 - Comment ID
 - Comment ordering position
 - Comment body
-- Comment external status
+- Comment client-facing status
 - Created timestamp
 - Updated timestamp
 - Author information

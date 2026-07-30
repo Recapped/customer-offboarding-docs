@@ -41,7 +41,7 @@ Contains one row per template tab.
 | `tab_id`             | Template tab identifier.                                |
 | `tab_title`          | Display name of the tab.                                |
 | `tab_order_position` | Position of the tab within the template.                |
-| `client_facing_tab`  | Indicates whether the tab is visible to external users. |
+| `client_facing`      | Indicates whether the tab is visible to external users. |
 
 Tabs are exported in the same order they appear in the template editor.
 
@@ -60,6 +60,7 @@ Contains one row per content block within a template tab.
 | `tab_title`              | Parent tab title.                                                          |
 | `block_id`               | Template block identifier.                                                 |
 | `block_type`             | Type of content block (tasks, notes, files, links, etc.).                  |
+| `client_facing`          | Indicates whether the block is visible to external users.                  |
 | `content_order_position` | Position of the block within the tab.                                      |
 | `content_reference_name` | Human-readable identifier extracted from the block data, when available.   |
 | `content_data`           | Complete JSON representation of the block.                                 |
@@ -88,7 +89,7 @@ Contains one row per task within a template task block.
 | `task_title`          | Task title.                                         |
 | `task_description`    | Task description or rich text content.              |
 | `section`             | Indicates whether the task is a section header.     |
-| `external`            | Indicates whether the task is client-facing.        |
+| `client_facing`       | Indicates whether the task is visible to external users. |
 | `reminder_offset`     | Default reminder offset configured for the task.    |
 | `prospect_uploads`    | Whether the task expects client uploads.            |
 | `proposed_due_date`   | Relative due date configured on the template task.  |

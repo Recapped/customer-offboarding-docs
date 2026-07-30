@@ -14,7 +14,7 @@ Contains one row per reusable block.
 | `reusable_block_name`           | Name of the reusable block.                                                |
 | `reusable_block_description`    | Description of the reusable block.                                         |
 | `block_type`                    | Type of reusable block (tasks, notes, files, links, etc.).                 |
-| `external`                      | Indicates whether the block is client-facing.                              |
+| `client_facing`                 | Indicates whether the block is visible to external users.                  |
 | `private`                       | Whether the reusable block is private.                                     |
 | `reusable_block_tags`           | Tags assigned to the reusable block.                                       |
 | `last_used_at`                  | Timestamp when the reusable block was last used.                           |
@@ -43,7 +43,7 @@ Contains one row per task within a reusable task block.
 | `task_title`          | Task title.                                         |
 | `task_description`    | Task description or rich text content.              |
 | `section`             | Indicates whether the task is a section header.     |
-| `external`            | Indicates whether the task is client-facing.        |
+| `client_facing`       | Indicates whether the task is visible to external users. |
 | `reminder_offset`     | Default reminder offset configured for the task.    |
 | `prospect_uploads`    | Whether the task expects client uploads.            |
 | `proposed_due_date`   | Relative due date configured on the reusable task.  |
